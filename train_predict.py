@@ -40,8 +40,8 @@ def train_predict():
 
 	# Plot graph: predicted VS actual
 	plt.subplot(111)
-	plt.plot(predicted_raw, label='Actual')
-	plt.plot(y_test_raw, label='Predicted')	
+	plt.plot(predicted_raw, label='Predicted')
+	plt.plot(y_test_raw, label='Actual')
 	plt.legend()
 	plt.show()
 
