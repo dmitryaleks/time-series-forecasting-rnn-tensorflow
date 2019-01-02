@@ -1,5 +1,5 @@
 {
-	"epochs": 100,
+	"epochs": 10,
 	"batch_size": 2,
 	"window_size": 6,
 	"train_test_split": 0.8,
