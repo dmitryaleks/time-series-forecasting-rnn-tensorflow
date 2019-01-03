@@ -39,3 +39,7 @@
 - [Time Series Forecasting with the Long Short-Term Memory Network in Python](https://machinelearningmastery.com/time-series-forecasting-long-short-term-memory-network-python/)
 - [LSTM Neural Network for Time Series Prediction](http://www.jakob-aungiers.com/articles/a/LSTM-Neural-Network-for-Time-Series-Prediction)
 - [Understanding LSTM Networks](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+
+### Additional references:
+
+- [Predicting stock volume with LSTM](https://sflscientific.com/data-science-blog/2017/2/10/predicting-stock-volume-with-lstm)
