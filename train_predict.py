@@ -5,6 +5,10 @@ import data_helper
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import math
+
+def root_mean_squared_error(y_true, y_pred):
+	return math.sqrt(sum(map(lambda (a,b): pow(a - b, 2) , zip(y_pred, y_true)))/y_true.__len__())
 
 def train_predict():
 	"""Train and predict time series data"""
@@ -37,6 +41,17 @@ def train_predict():
 	predicted_raw = []
 	for i in range(len(x_test_raw)):
 		predicted_raw.append((predicted[i] + 1) * x_test_raw[i][0])
+
+        # Debug info
+	print("DEBUG: Predicted test data:")
+	for e in predicted_raw:
+	    print(e)
+	print("DEBUG: Actual test data:")
+	for e in y_test_raw:
+	    print(e)
+
+	rmse = root_mean_squared_error(predicted_raw, y_test_raw)
+	print("RMSE: %f" % rmse)
 
 	# Plot graph: predicted VS actual
 	plt.subplot(111)
