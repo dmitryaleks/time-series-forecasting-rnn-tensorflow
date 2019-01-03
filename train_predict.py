@@ -57,6 +57,7 @@ def train_predict():
 	plt.subplot(111)
 	plt.plot(predicted_raw, label='Predicted', marker='o')
 	plt.plot(y_test_raw, label='Actual', marker='o')
+	#plt.ylim(ymin=0)
 	plt.legend()
 	plt.show()
 
