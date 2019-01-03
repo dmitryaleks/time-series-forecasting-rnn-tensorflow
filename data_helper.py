@@ -23,6 +23,7 @@ def load_timeseries(filename, params):
 	# Split the input dataset into train and test
 	split_ratio = round(params['train_test_split'] * result.shape[0])
 	train = result[:int(split_ratio), :]
+        print(train)
 	np.random.shuffle(train)
 
 	# x_train and y_train, for training

@@ -2,6 +2,10 @@ import numpy as np
 from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
+from keras import backend as K
+
+def root_mean_squared_error(y_true, y_pred):
+        return K.sqrt(K.mean(K.square(y_pred - y_true)))
 
 def rnn_lstm(layers, params):
 	"""Build RNN (LSTM) model on top of Keras and Tensorflow"""
@@ -14,7 +18,7 @@ def rnn_lstm(layers, params):
 	model.add(Dense(output_dim=layers[3]))
 	model.add(Activation("tanh"))
 
-	model.compile(loss="mean_squared_error", optimizer="rmsprop")
+	model.compile(loss=root_mean_squared_error, optimizer="rmsprop", metrics =["accuracy"])
 	return model
 
 def predict_next_timestamp(model, history):
