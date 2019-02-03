@@ -3,6 +3,7 @@ from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 from keras import backend as K
+from keras.utils.vis_utils import plot_model
 
 def root_mean_squared_error(y_true, y_pred):
         return K.sqrt(K.mean(K.square(y_pred - y_true)))
@@ -17,6 +18,8 @@ def rnn_lstm(layers, params):
 	model.add(Dropout(params['dropout_keep_prob']))
 	model.add(Dense(output_dim=layers[3]))
 	model.add(Activation("tanh"))
+
+        plot_model(model, to_file='img/model_plot.png', show_shapes=True, show_layer_names=True)
 
 	model.compile(loss=root_mean_squared_error, optimizer="rmsprop", metrics =["accuracy"])
 	return model
