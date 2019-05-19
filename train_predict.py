@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import math
+from keras.callbacks import ModelCheckpoint
 
 def root_mean_squared_error(y_true, y_pred):
     return math.sqrt(sum(map(lambda a_b: pow(a_b[0] - a_b[1], 2) , zip(y_pred, y_true)))/y_true.__len__())
@@ -32,6 +33,9 @@ def train_predict():
     print(f'DEBUG: len(x_test): {len(x_test)}')
     print(f'DEBUG: len(y_test): {len(y_test)}')
 
+    weight_file = 'model_best_weights.h5'
+    checkpoint = ModelCheckpoint(weight_file, monitor='val_loss', verbose=1, save_best_only=True, mode='min', period=1)
+
     # Train RNN (LSTM) model with train set
     history = model.fit(
             x_train,
@@ -39,7 +43,10 @@ def train_predict():
             batch_size=params['batch_size'],
             epochs=params['epochs'],
             validation_split=params['validation_split'],
-            verbose=True)
+            verbose=True,
+            callbacks=[checkpoint])
+
+    model.load_weights(weight_file)
 
     loss = history.history['loss']
     val_loss = history.history['val_loss']
@@ -58,10 +65,13 @@ def train_predict():
     predicted = build_model.predict_next_timestamp(model, x_test)        
     predicted_raw = []
     for i in range(len(x_test_raw)):
-            predicted_raw.append((predicted[i] + 1) * x_test_raw[i][0])
+            predicted_raw.append(predicted[i])
 
     # Debug info
     print("DEBUG: Predicted test data:")
+    for e in predicted:
+        print(e)
+    print("DEBUG: Predicted (raw) test data:")
     for e in predicted_raw:
         print(e)
     print("DEBUG: Actual test data:")

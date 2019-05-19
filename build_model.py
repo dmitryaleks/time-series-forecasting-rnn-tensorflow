@@ -7,6 +7,7 @@ from keras.utils.vis_utils import plot_model
 from keras import layers
 from keras.optimizers import RMSprop
 
+
 def root_mean_squared_error(y_true, y_pred):
     return K.sqrt(K.mean(K.square(y_pred - y_true)))
 
@@ -22,17 +23,18 @@ def rnn_lstm(lstm_layer, params):
     model.add(Dense(output_dim=layers[3]))
     model.add(Activation("tanh"))
     '''
+
+
     model = Sequential()
-    model.add(layers.GRU(32,
+    model.add(layers.LSTM(32,
                 dropout=0.2,
                 recurrent_dropout=0.2,
                 input_shape=(lstm_layer[1], lstm_layer[0])))
     model.add(layers.Dense(1))
     model.compile(optimizer=RMSprop(), loss='mae')
 
-    plot_model(model, to_file='img/model_plot.png', show_shapes=True, show_layer_names=True)
-
-    model.compile(loss=root_mean_squared_error, optimizer="rmsprop", metrics =["accuracy"])
+    #plot_model(model, to_file='img/model_plot.png', show_shapes=True, show_layer_names=True)
+    #model.compile(loss=root_mean_squared_error, optimizer="rmsprop", metrics =["accuracy"])
     return model
 
 def predict_next_timestamp(model, history):

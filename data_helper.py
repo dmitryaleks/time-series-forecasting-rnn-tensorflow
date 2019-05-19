@@ -7,12 +7,22 @@ def load_timeseries(filename, params):
     series = pd.read_csv(filename, sep=',', header=0, index_col=0, squeeze=True)
     data = series.values
 
+    # Note: we should be calculating normalisation parameters only based on test data
+    test_data_portion = data[round(params['train_test_split'] * len(data)):]
+    mean_v = np.mean(test_data_portion)
+    print(f'Mean: {mean_v}')
+    data =  [(x - mean_v) for x in data]
+
+    std_v = np.std(test_data_portion)
+    print(f'Std: {std_v}')
+    data =  [(x/std_v) for x in data]
+
     print(f'DEBUG: len(data): {len(data)}')
-    input('Press a key to continue...')
+    #input('Press a key to continue...')
 
     adjusted_window = params['window_size']+ 1
     print(f'DEBUG: adjusted_window: {adjusted_window}')
-    input('Press a key to continue...')
+    #input('Press a key to continue...')
 
 
     # Split data into windows
@@ -21,13 +31,13 @@ def load_timeseries(filename, params):
             raw.append(data[index: index + adjusted_window])
 
     print(f'DEBUG: len(raw): {len(raw)}')
-    input('Press a key to continue...')
+    #input('Press a key to continue...')
 
     # Normalize data
     result = normalize_windows(raw)
 
     print(f'DEBUG: len(result): {len(result)}')
-    input('Press a key to continue...')
+    #input('Press a key to continue...')
 
     raw = np.array(raw)
     result = np.array(result)
@@ -36,7 +46,7 @@ def load_timeseries(filename, params):
     split_ratio = round(params['train_test_split'] * result.shape[0])
 
     print(f'DEBUG: split_ratio: {split_ratio}')
-    input('Press a key to continue...')
+    #input('Press a key to continue...')
 
     train = result[:int(split_ratio), :]
     print(train)
@@ -79,7 +89,8 @@ def normalize_windows(window_data):
                     norm_factor = x
                     break
 
-        normalized_window = [((float(p) / norm_factor) - 1) for p in window]
+        #normalized_window = [((float(p) / norm_factor) - 1) for p in window]
+        normalized_window = window
         normalized_data.append(normalized_window)
 
     return normalized_data
